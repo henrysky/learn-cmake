@@ -20,30 +20,6 @@ else()
   set(BIN_OR_LIB "lib")
 endif()
 
-message(STATUS "Subproject: Libtiff...")
-project(libtiff-download NONE)
-
-ExternalProject_Add(libtiff_project
-    GIT_REPOSITORY https://gitlab.com/libtiff/libtiff.git
-    GIT_TAG v4.2.0
-    SOURCE_DIR "${CMAKE_BINARY_DIR}/libtiff-src"
-	BINARY_DIR "${CMAKE_BINARY_DIR}/libtiff-build"
-    INSTALL_DIR "${CMAKE_BINARY_DIR}/libtiff-install"
-    CONFIGURE_COMMAND ${CMAKE_COMMAND} -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> <SOURCE_DIR>
-)
-
-add_library(tiff SHARED IMPORTED)
-set_target_properties(tiff PROPERTIES
-    IMPORTED_LOCATION "${CMAKE_BINARY_DIR}/libtiff-install/${BIN_OR_LIB}/${CMAKE_SHARED_LIBRARY_PREFIX}tiff${CMAKE_DEBUG_POSTFIX}${CMAKE_SHARED_LIBRARY_SUFFIX}"
-    IMPORTED_IMPLIB "${CMAKE_BINARY_DIR}/libtiff-install/lib/${CMAKE_STATIC_LIBRARY_PREFIX}tiff${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}"
-    INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_BINARY_DIR}/libtiff-install/include"
-)
-add_dependencies(ImgStacker libtiff_project)
-target_include_directories(ImgStacker PRIVATE "${CMAKE_BINARY_DIR}/libtiff-install/include")
-target_link_libraries(ImgStacker tiff)
-message(STATUS "Subproject: libtiff...DONE")
-
-
 message(STATUS "Subproject: zlib...")
 project(zlib-download NONE)
 
@@ -73,3 +49,27 @@ add_dependencies(ImgStacker zlib_project)
 target_include_directories(ImgStacker PRIVATE "${CMAKE_BINARY_DIR}/zlib-install/include")
 target_link_libraries(ImgStacker zlib)
 message(STATUS "Subproject: zlib...DONE")
+
+
+message(STATUS "Subproject: Libtiff...")
+project(libtiff-download NONE)
+
+ExternalProject_Add(libtiff_project
+    GIT_REPOSITORY https://gitlab.com/libtiff/libtiff.git
+    GIT_TAG v4.2.0
+    SOURCE_DIR "${CMAKE_BINARY_DIR}/libtiff-src"
+	BINARY_DIR "${CMAKE_BINARY_DIR}/libtiff-build"
+    INSTALL_DIR "${CMAKE_BINARY_DIR}/libtiff-install"
+    CONFIGURE_COMMAND ${CMAKE_COMMAND} -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> <SOURCE_DIR>
+)
+
+add_library(tiff SHARED IMPORTED)
+set_target_properties(tiff PROPERTIES
+    IMPORTED_LOCATION "${CMAKE_BINARY_DIR}/libtiff-install/${BIN_OR_LIB}/${CMAKE_SHARED_LIBRARY_PREFIX}tiff${CMAKE_DEBUG_POSTFIX}${CMAKE_SHARED_LIBRARY_SUFFIX}"
+    IMPORTED_IMPLIB "${CMAKE_BINARY_DIR}/libtiff-install/lib/${CMAKE_STATIC_LIBRARY_PREFIX}tiff${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}"
+    INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_BINARY_DIR}/libtiff-install/include"
+)
+add_dependencies(ImgStacker libtiff_project)
+target_include_directories(ImgStacker PRIVATE "${CMAKE_BINARY_DIR}/libtiff-install/include")
+target_link_libraries(ImgStacker tiff)
+message(STATUS "Subproject: libtiff...DONE")
