@@ -13,7 +13,7 @@ jobs:
         - {
             name: "Windows Latest - MSVC", artifact: "learn-cmake-msvc.tar.xz",
             os: windows-latest,
-            build_type: "Release", cc: "cl", cxx: "cl",
+            build_type: "Release", cc: "cl", cxx: "cl"
           }
         - {
             name: "Ubuntu Latest - GCC", artifact: "learn-cmake-gcc.tar.xz",
@@ -25,16 +25,17 @@ jobs:
             os: ubuntu-latest,
             build_type: "Release", cc: "clang", cxx: "clang++"
           }
-    - uses: actions/checkout@v2
-      with:
-        submodules: 'recursive'
-    - name: Set Windows ENV
-      if: runner.os == 'Windows'
-      uses: ilammy/msvc-dev-cmd@v1
-    - name: Install Linux Dependencies
-      if: runner.os == 'Linux'
-      run: sudo apt install libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libglew-dev
-    - name: CMake Configure 
-      run: cmake -Bbuild -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }}
-    - name: CMake Build
-      run: cmake --build build
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+      - name: Set Windows ENV
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+      - name: Install Linux Dependencies
+        if: runner.os == 'Linux'
+        run: sudo apt install libxcursor-dev libxrandr-dev libxinerama-dev libxi-dev libglew-dev
+      - name: CMake Configure 
+        run: cmake -Bbuild -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -DCMAKE_C_COMPILER=${{ matrix.config.cc }} -DCMAKE_CXX_COMPILER=${{ matrix.config.cxx }}
+      - name: CMake Build
+        run: cmake --build build
