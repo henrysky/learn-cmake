@@ -43,7 +43,6 @@ add_library(zlib SHARED IMPORTED)
 set_target_properties(zlib PROPERTIES
     IMPORTED_LOCATION "${CMAKE_BINARY_DIR}/zlib-install/${BIN_OR_LIB}/${CMAKE_SHARED_LIBRARY_PREFIX}${ZLIB_LIB_NAME}${CMAKE_DEBUG_POSTFIX}${CMAKE_SHARED_LIBRARY_SUFFIX}"
     IMPORTED_IMPLIB "${CMAKE_BINARY_DIR}/zlib-install/lib/${CMAKE_STATIC_LIBRARY_PREFIX}${ZLIB_LIB_NAME}${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}"
-    INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_BINARY_DIR}/zlib-install/include"
 )
 add_dependencies(ImgStacker zlib_project)
 target_include_directories(ImgStacker PRIVATE "${CMAKE_BINARY_DIR}/zlib-install/include")
@@ -67,7 +66,6 @@ add_library(tiff SHARED IMPORTED)
 set_target_properties(tiff PROPERTIES
     IMPORTED_LOCATION "${CMAKE_BINARY_DIR}/libtiff-install/${BIN_OR_LIB}/${CMAKE_SHARED_LIBRARY_PREFIX}tiff${CMAKE_DEBUG_POSTFIX}${CMAKE_SHARED_LIBRARY_SUFFIX}"
     IMPORTED_IMPLIB "${CMAKE_BINARY_DIR}/libtiff-install/lib/${CMAKE_STATIC_LIBRARY_PREFIX}tiff${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}"
-    INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_BINARY_DIR}/libtiff-install/include"
 )
 add_dependencies(ImgStacker libtiff_project)
 target_include_directories(ImgStacker PRIVATE "${CMAKE_BINARY_DIR}/libtiff-install/include")
